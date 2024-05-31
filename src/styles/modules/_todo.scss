@@ -5,14 +5,20 @@
     flex-direction: column;
     justify-content: space-between;
 
+
     .listTitle {
         color: $lightgrey;
         font-weight: 600;
 
-        .task {
-            background-color: $darkgrey;
-            color: $lightgrey;
-            border-radius: 12px;
+        .listOfTasks {
+            max-height: 74vh;
+            overflow-y: auto;
+
+            .task {
+                background-color: $darkgrey;
+                color: $lightgrey;
+                border-radius: 12px;
+            }
         }
     }
 

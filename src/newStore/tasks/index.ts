@@ -9,6 +9,6 @@ const slice = createSlice({
   reducers: Reducer,
 })
 
-export const loyaltySliceActions = slice.actions
+export const dashboardSliceActions = slice.actions
 
 export default slice.reducer

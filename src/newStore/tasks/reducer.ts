@@ -4,29 +4,26 @@ const setDoneList = (
     state: DashboardState,
     payload: { payload: Task[] },
 ) => {
-    state.doneList = {
-        ...state.doneList,
-        ...payload.payload,
-    }
+    state.doneList =
+        payload.payload
 }
+
 const setTodoList = (
     state: DashboardState,
     payload: { payload: Task[] },
 ) => {
-    state.doneList = {
-        ...state.doneList,
-        ...payload.payload,
-    }
+    state.todoList =
+        payload.payload
 }
+
 const setInProgressList = (
     state: DashboardState,
     payload: { payload: Task[] },
 ) => {
-    state.doneList = {
-        ...state.doneList,
-        ...payload.payload,
-    }
+    state.inprogressList =
+        payload.payload
 }
+
 export default {
     setDoneList,
     setTodoList,
