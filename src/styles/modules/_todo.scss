@@ -1,0 +1,19 @@
+.tasksList {
+    background-color: black;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .listTitle {
+        color: $lightgrey;
+        font-weight: 600;
+
+        .task {
+            background-color: $darkgrey;
+            color: $lightgrey;
+            border-radius: 12px;
+        }
+    }
+
+}
