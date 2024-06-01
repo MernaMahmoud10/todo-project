@@ -2,8 +2,6 @@ import { DashboardState } from "./props";
 
 export default {
     DashboardState: {
-        todoList: [],
-        inProgressList: [],
-        done: []
+        myTasks: [],
     }
 }as DashboardState

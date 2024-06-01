@@ -1,24 +1,47 @@
-import Done from '../DoneComponent/Done'
-import InProgress from '../InProgressComponent/InProgress'
 import axios from 'axios'
-import TodoList from '../todoComponent/Todo'
-import { useEffect } from 'react'
+import TasksList from '../tasksList/TasksList'
+import { useEffect, useState } from 'react'
 import { Task } from '../../newStore/tasks/props'
 import { dashboardSliceActions } from '../../newStore/tasks'
 import { useAddNotification } from '../../helpers/addNotification'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from 'newStore'
 
 const Home = () => {
     const dispatch = useDispatch()
+    const myTasks = useSelector((state: RootState) => state?.dashboard?.myTasks)
+    const [activeCard, setActiveCard] = useState<number | undefined>(undefined)
+    const [laststatus, setLaststatus] = useState<string>("")
+
     const getTasks = async () => {
         await axios.get("https://jsonplaceholder.typicode.com/users/1/todos")
             .then(response => {
                 const data = response.data;
-                const todoTasks: Task[] = data?.filter((task: Task) => task.completed == false)
+                let myTasksArr: Task[] = []
                 const doneTasks: Task[] = data?.filter((task: Task) => task.completed == true)
-                console.log({todoTasks})
-                dispatch(dashboardSliceActions.setTodoList(todoTasks))
-                dispatch(dashboardSliceActions.setDoneList(doneTasks))
+                const todoTasks: Task[] = data?.filter((task: Task) => task.completed == false)
+                doneTasks.map((task: Task) => myTasksArr?.push({
+                    userId: task?.userId,
+                    id: task?.id,
+                    title: task?.title,
+                    completed: task?.completed,
+                    status: "done"
+                }));
+                todoTasks?.slice(0, todoTasks?.length / 2).map((task: Task) => myTasksArr?.push({
+                    userId: task?.userId,
+                    id: task?.id,
+                    title: task?.title,
+                    completed: task?.completed,
+                    status: "todo"
+                }));
+                todoTasks?.slice(todoTasks?.length / 2, todoTasks?.length - 1).map((task: Task) => myTasksArr?.push({
+                    userId: task?.userId,
+                    id: task?.id,
+                    title: task?.title,
+                    completed: task?.completed,
+                    status: "inProgress"
+                }));
+                dispatch(dashboardSliceActions?.setMyTasks(myTasksArr))
             })
             .catch(error => {
                 if (error.message) {
@@ -31,6 +54,23 @@ const Home = () => {
         getTasks()
     }, [])
 
+    const onDrop = (status: string, position: number) => {
+        // console.log(`task number ${activeCard} it was in ${laststatus} and now num ${position} in ${status}`)
+        if (activeCard == null || activeCard == undefined || (laststatus == "todo" && status == "done")) return;
+        if (myTasks) {
+            const taskToMove = myTasks[activeCard]
+            const updatedTasks = myTasks?.filter((task: Task, index: number) => index !== activeCard)
+            updatedTasks.splice(position, 0, {
+                ...taskToMove,
+                status: status
+            })
+            dispatch(dashboardSliceActions?.setMyTasks(updatedTasks))
+        }
+
+    }
+
+
+
     return (
         <>
             <section id='home'>
@@ -38,11 +78,16 @@ const Home = () => {
                     <h3 className="text-white">Atlassian basic board</h3>
                 </div>
                 <div className="container-fluid">
-
                     <div className="row pt-4">
-                        <TodoList/>
-                        <InProgress />
-                        <Done />
+                        <TasksList title={"To-Do"} tasks={myTasks} setLaststatus={setLaststatus}
+                            setActiveCard={setActiveCard} status="todo" onDrop={onDrop} laststatus={laststatus} />
+
+                        <TasksList title={"In Progress"} tasks={myTasks} setLaststatus={setLaststatus}
+                            setActiveCard={setActiveCard} status="inProgress" onDrop={onDrop} laststatus={laststatus} />
+
+                        <TasksList title={"Done"} tasks={myTasks} setLaststatus={setLaststatus}
+                            setActiveCard={setActiveCard} status="done" onDrop={onDrop} laststatus={laststatus} />
+
                     </div>
                 </div>
 

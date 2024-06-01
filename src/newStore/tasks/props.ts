@@ -1,8 +1,6 @@
 export type DashboardState =
     {
-        todoList?: Task[],
-        inprogressList?: Task[],
-        doneList?: Task[]
+        myTasks?: Task[]
     }
 
 export interface Task {
@@ -10,4 +8,5 @@ export interface Task {
     id: number
     title: string
     completed: boolean
+    status: string
 }
