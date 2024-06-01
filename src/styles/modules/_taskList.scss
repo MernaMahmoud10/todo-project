@@ -5,12 +5,12 @@
     flex-direction: column;
     justify-content: space-between;
 
-    .listTitle {
+    .taskListContent {
         color: $lightgrey;
         font-weight: 600;
 
         .listOfTasks {
-            max-height: 74vh;
+            max-height: 73vh;
             overflow-y: auto;
 
             .task {
@@ -20,6 +20,12 @@
                 cursor: grab;
 
             }
+        }
+
+        .addTask:hover {
+            background-color: $darkgrey;
+            width: 40%;
+            cursor: pointer;
         }
     }
 

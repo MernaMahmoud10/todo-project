@@ -78,7 +78,7 @@ const Home = () => {
                     <h3 className="text-white">Atlassian basic board</h3>
                 </div>
                 <div className="container-fluid">
-                    <div className="row pt-4">
+                    <div className="row pt-3">
                         <TasksList title={"To-Do"} tasks={myTasks} setLaststatus={setLaststatus}
                             setActiveCard={setActiveCard} status="todo" onDrop={onDrop} laststatus={laststatus} />
 

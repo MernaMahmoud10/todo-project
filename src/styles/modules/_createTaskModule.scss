@@ -1,0 +1,13 @@
+.create-task {
+    .modal-content {
+        background-color: $darkgrey;
+        border: 1px solid $darkgrey;
+        border-radius: 12px;
+        color: $lightgrey;
+
+        .actionBtn {
+            background-color: $blue500;
+            border-radius: 10px;
+        }
+    }
+}

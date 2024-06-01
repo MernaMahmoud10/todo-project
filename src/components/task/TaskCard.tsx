@@ -1,4 +1,5 @@
 import { Task } from "newStore/tasks/props";
+import { SetStateAction } from "react";
 
 export default function TaskCard(props: {
     index: number,
@@ -7,6 +8,7 @@ export default function TaskCard(props: {
     draggable: boolean,
     setLaststatus: React.Dispatch<React.SetStateAction<string>>
     status: string
+    goToModalcreate: (Index: SetStateAction<number | null>) => void
 
 }) {
     return (
@@ -15,7 +17,7 @@ export default function TaskCard(props: {
             onDragEnd={() => props?.setActiveCard(undefined)}>
             <p>{props?.task?.title}</p>
             <div className="btsDiv d-flex justify-content-between w-100">
-                <button className="Edit btn btn-primary w-25">Edit</button>
+                <button className="Edit btn btn-primary w-25" onClick={() => props?.goToModalcreate(props?.index)}>Edit</button>
                 <button className="Edit btn btn-danger w-25">Delete</button>
             </div>
         </div>
