@@ -1,8 +1,8 @@
 import { SetStateAction, useEffect, useState } from 'react';
 import { Task } from 'newStore/tasks/props';
+import { useAddNotification } from '../../helpers/addNotification';
 import DropArea from '../dropArea/DropArea';
 import TaskCard from '../task/TaskCard';
-
 import ModalCreateTask from '../ModalCreateTask/ModalCreateTask';
 
 interface MyProps {
@@ -14,6 +14,7 @@ interface MyProps {
     setLaststatus: React.Dispatch<React.SetStateAction<string>>
     laststatus: string
 }
+
 export default function TasksList(props: MyProps) {
     const [drop, setDrop] = useState(true)
     const [taskDetailsIsOpened, settaskDetailsIsOpened] = useState<boolean>(false)
@@ -27,11 +28,12 @@ export default function TasksList(props: MyProps) {
         setTaskIndexToEdit(Index)
     }
     useEffect(() => {
-        if (props?.laststatus == "todo" && props?.status == "done")
+        if (props?.laststatus == "todo" && props?.status == "done") {
             setDrop(false)
+            useAddNotification("The Tasks in the To-Do list can only be moved to the Inprogress list", "Note :", "default")
+        }
         else
             setDrop(true)
-
     }, [props?.laststatus, props?.status])
 
     return (
@@ -67,7 +69,7 @@ export default function TasksList(props: MyProps) {
 
             {taskDetailsIsOpened ? <ModalCreateTask taskDetailsIsOpened={taskDetailsIsOpened}
                 settaskDetailsIsOpened={settaskDetailsIsOpened} taskIndex={taskIndexToEdit}
-                toggleModalCreate={toggleModalCreate} /> : null}
+                toggleModalCreate={toggleModalCreate} listStatus={props?.status} /> : null}
         </>
     )
 }

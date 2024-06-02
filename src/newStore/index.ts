@@ -13,7 +13,7 @@ const reducers = combineReducers({
 
 
 const persistConfig = {
-  key: 'root2',
+  key: 'root1',
   storage: localforage,
   whitelist: ['dashboard']
 }

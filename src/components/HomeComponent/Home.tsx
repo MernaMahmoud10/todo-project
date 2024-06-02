@@ -12,6 +12,7 @@ const Home = () => {
     const myTasks = useSelector((state: RootState) => state?.dashboard?.myTasks)
     const [activeCard, setActiveCard] = useState<number | undefined>(undefined)
     const [laststatus, setLaststatus] = useState<string>("")
+    const myLocalTasks = localStorage?.getItem("mytasks");
 
     const getTasks = async () => {
         await axios.get("https://jsonplaceholder.typicode.com/users/1/todos")
@@ -42,6 +43,7 @@ const Home = () => {
                     status: "inProgress"
                 }));
                 dispatch(dashboardSliceActions?.setMyTasks(myTasksArr))
+                localStorage?.setItem("mytasks", JSON.stringify(myTasksArr))
             })
             .catch(error => {
                 if (error.message) {
@@ -51,11 +53,21 @@ const Home = () => {
 
     }
     useEffect(() => {
-        getTasks()
+        if (!myLocalTasks) {
+            getTasks()
+        }
+        else {
+            dispatch(dashboardSliceActions?.setMyTasks(JSON?.parse(myLocalTasks)))
+        }
     }, [])
 
+
+    useEffect(() => {
+        localStorage?.setItem("mytasks", JSON.stringify(myTasks))
+    }, [myTasks])
+
+
     const onDrop = (status: string, position: number) => {
-        // console.log(`task number ${activeCard} it was in ${laststatus} and now num ${position} in ${status}`)
         if (activeCard == null || activeCard == undefined || (laststatus == "todo" && status == "done")) return;
         if (myTasks) {
             const taskToMove = myTasks[activeCard]

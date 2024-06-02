@@ -10,6 +10,7 @@ interface ModalCreateTaskProps {
     settaskDetailsIsOpened: React.Dispatch<React.SetStateAction<boolean>>
     toggleModalCreate: () => void
     taskIndex: number | null
+    listStatus: string
 }
 export default function ModalCreateTask(props: ModalCreateTaskProps) {
     const dispatch = useDispatch()
@@ -22,7 +23,7 @@ export default function ModalCreateTask(props: ModalCreateTaskProps) {
                 userId: 1,
                 title: "",
                 completed: false,
-                status: "todo",
+                status: props?.listStatus,
                 id: myTaskId
             })
         }
@@ -61,24 +62,24 @@ export default function ModalCreateTask(props: ModalCreateTaskProps) {
         }
 
     };
-    console.log(taskData)
+
     const handleSubmit = () => {
         debugger
         if (props?.taskIndex == null) {
             if (taskData)
                 if (myTasks) {
-                    const mynewTasks: Task[] = [...myTasks]
-                    mynewTasks.push(taskData)
-                    dispatch(dashboardSliceActions?.setMyTasks(mynewTasks))
+                    const myNewTasks: Task[] = [...myTasks]
+                    myNewTasks.push(taskData)
+                    dispatch(dashboardSliceActions?.setMyTasks(myNewTasks))
                     props?.toggleModalCreate()
                 }
 
         }
         else {
-            if (myTasks && props?.taskIndex) {
-                const mynewTasks: Task[] = [...myTasks]
-                mynewTasks?.splice(props?.taskIndex, 0, taskData)
-                dispatch(dashboardSliceActions?.setMyTasks(mynewTasks))
+            if (myTasks) {
+                const myNewTasks: Task[] = [...myTasks]
+                myNewTasks[props?.taskIndex] = taskData;
+                dispatch(dashboardSliceActions?.setMyTasks(myNewTasks))
                 props?.toggleModalCreate()
             }
         }
@@ -101,26 +102,31 @@ export default function ModalCreateTask(props: ModalCreateTaskProps) {
                     onChange={(e) => handleChange(e)}
                     placeholder="enter the task Name" />
 
-                <label className="pb-1 pt-3">Task Status:</label>
-                <select className="form-control"
-                    name="status"
-                    value={taskData?.status}
-                    onChange={(e) => handleChange(e)}>
-                    {taskData?.status == "todo" ?
+                {
+                    props?.taskIndex !== null ?
                         <>
-                            <option value="todo">To-Do</option>
-                            <option value="inProgress">In Progress</option>
-                        </>
-                        :
-                        taskData?.status == "inProgress" ?
-                            <> <option value="todo">To-Do</option>
-                                <option value="inProgress">In Progress</option>
-                                <option value="done">done</option>
-                            </>
-                            : <option value="done">done</option>}
+                            <label className="pb-1 pt-3">Task Status:</label>
+                            <select className="form-control"
+                                name="status"
+                                value={taskData?.status}
+                                onChange={(e) => handleChange(e)}>
+                                {taskData?.status == "todo" ?
+                                    <>
+                                        <option value="todo">To-Do</option>
+                                        <option value="inProgress">In Progress</option>
+                                    </>
+                                    :
+                                    taskData?.status == "inProgress" ?
+                                        <> <option value="todo">To-Do</option>
+                                            <option value="inProgress">In Progress</option>
+                                            <option value="done">done</option>
+                                        </>
+                                        : <option value="done">done</option>}
 
 
-                </select>
+                            </select>
+                        </> : null
+                }
                 <div className="btnDiv d-flex mt-4 justify-content-center">
                     <button className="actionBtn py-2 px-4" onClick={handleSubmit}>
                         {props?.taskIndex == null ? "Add" : "Edit"}
