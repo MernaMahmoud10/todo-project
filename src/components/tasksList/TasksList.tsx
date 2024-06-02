@@ -30,7 +30,7 @@ export default function TasksList(props: MyProps) {
     useEffect(() => {
         if (props?.laststatus == "todo" && props?.status == "done") {
             setDrop(false)
-            useAddNotification("The Tasks in the To-Do list can only be moved to the Inprogress list", "Note :", "default")
+            useAddNotification("The Tasks in the To-Do list can only be moved to the Inprogress list", "Note :", "warning")
         }
         else
             setDrop(true)
