@@ -13,8 +13,8 @@ Currently, two official plugins are available:
 - run npm run build or yarn build to create a production build
 
 ## Accepting Criteria:
-Fetching user tasks from "JSON Placeholder API and cach it in a local storage
-User can drag and drop tasks between the columns 
+- Fetching user tasks from "JSON Placeholder API and cach it in a local storage
+- User can drag and drop tasks between the columns 
 (todo --> inprogress)
 (inprogress -> todo/done)
 (done can't be dropped to each of columns)
