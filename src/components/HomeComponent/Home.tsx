@@ -71,7 +71,7 @@ const Home = () => {
         if (activeCard == null || activeCard == undefined || (laststatus == "todo" && status == "done")) return;
         if (myTasks) {
             const taskToMove = myTasks[activeCard]
-            const updatedTasks = myTasks?.filter((task: Task, index: number) => index !== activeCard)
+            const updatedTasks = myTasks?.filter((_task: Task, index: number) => index !== activeCard)
             updatedTasks.splice(position, 0, {
                 ...taskToMove,
                 status: status
