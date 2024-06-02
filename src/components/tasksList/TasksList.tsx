@@ -39,7 +39,7 @@ export default function TasksList(props: MyProps) {
     return (
         <>
             <div className="col-md-4 done px-4">
-                <div className="tasksList">
+                <div className="tasksList my-2">
                     <div className="taskListContent px-3 py-2">
                         <h5 className="ms-2">{props?.title}</h5>
                         <div className="listOfTasks">
